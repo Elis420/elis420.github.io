@@ -30,7 +30,7 @@ This project walks through the troubleshooting steps I took to identify and fix 
 > Screenshot showing the `error` message i got in the CLI.
 {: .prompt-info }
 
-![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/jekyll-theme-chirpy@master/assets/img/ssh-project/ssh-conn-fail.png){: width="972" height="589" }
+![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/elis420.github.io@master/assets/img/ssh-project/ssh-conn-fail.png){: width="972" height="589" }
 _Screenshot from client CLI_
 
 
@@ -45,7 +45,7 @@ First, I checked whether the SSH service was running:
 sudo systemctl status ssh
 
 ```
-![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/jekyll-theme-chirpy@master/assets/img/ssh-project/ssh-status.png){: width="972" height="589" }
+![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/elis420.github.io@master/assets/img/ssh-project/ssh-status.png){: width="972" height="589" }
 _Screenshot from server's terminal_
 
 > It showed inactive`(dead)`,  meaning the SSH daemon was not running.
@@ -72,7 +72,7 @@ sudo systemctl status ssh
 
 ```
 
-![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/jekyll-theme-chirpy@master/assets/img/ssh-project/enabled-ssh.png){: width="972" height="589" }
+![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/elis420.github.io@master/assets/img/ssh-project/enabled-ssh.png){: width="972" height="589" }
 _Screenshot from server's terminal_
 
 > Now it showed active `(running)`.
@@ -80,7 +80,7 @@ _Screenshot from server's terminal_
 
 ## 🔎 Step 3: Made sure i had the Forwarding Port rules set up in the VM
 
-![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/jekyll-theme-chirpy@master/assets/img/ssh-project/fp-rules-check.png){: width="972" height="589" }
+![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/elis420.github.io@master/assets/img/ssh-project/fp-rules-check.png){: width="972" height="589" }
 _Screenshot from VM Network NAT Advanced settings_
 
 > I confirmed i had the host port set up for 2222 and guest to 22.
@@ -102,7 +102,7 @@ sudo ufw reload
 
 ## ✅ Outcome
 
-![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/jekyll-theme-chirpy@master/assets/img/ssh-project/retry-succes.png){: width="972" height="589" }
+![Desktop View](https://cdn.jsdelivr.net/gh/Elis420/elis420.github.io@master/assets/img/ssh-project/retry-succes.png){: width="972" height="589" }
 _Client CLI side_
 
 After completing these steps, SSH access was restored successfully.
