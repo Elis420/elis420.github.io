@@ -28,7 +28,7 @@ It covers VM setup, VirtualBox networking configuration, IP configuration, testi
 
 ## 1. Lab Setup ⚙️
 
-1.1 VirtualBox Network Configuration
+### VirtualBox Network Configuration
 
 - Created a Host-Only Adapter in VirtualBox:
 
@@ -40,7 +40,7 @@ It covers VM setup, VirtualBox networking configuration, IP configuration, testi
   
 ![Desktop View](/assets/img/network-project/vm-network-settings.png)
 
-- Added two VMs:
+### Added two VMs:
 
   - Ubuntu Desktop VM
 
@@ -55,7 +55,7 @@ It covers VM setup, VirtualBox networking configuration, IP configuration, testi
 
 ## 2. Network Configuration 🖧
 
-Ubuntu Desktop (192.168.56.10):
+### Ubuntu Desktop (192.168.56.10):
 ```bash
 network:
   version: 2
@@ -77,7 +77,7 @@ network:
 ![Desktop View](/assets/img/network-project/edit-netconfg-ubuntu-1.png)
 _Screenshot from Netplan config being edited with nano_
 
-Ubuntu Server (192.168.56.11):
+### Ubuntu Server (192.168.56.11):
 ```bash
 network:
   version: 2
@@ -139,14 +139,15 @@ _Screenshot from desktop's Terminal_
 
 ## Troubleshooting 🔧
 
+### PROBLEM 1
 > `(Issue)`: No IP address on enp0s3.
-{: .prompt-info }
+{: .prompt-warning }
 
 ![Desktop View](/assets/img/network-project/changes-not-applied-through-ip-address-set.png)
 _Screenshot from Desktop's Terminal_
 
 > `(Fix)`: Configured static IP in Netplan and applied it with sudo netplan apply.
-{: .prompt-info }
+{: .prompt-tip }
 .
 ![Desktop View](/assets/img/network-project/edit-netconfg-ubuntu-1.png)
 _Screenshot from nano_
@@ -156,14 +157,14 @@ _Screenshot from nano_
 ![Desktop View](/assets/img/network-project/verified-ipaddress-it-works.png)
 _Screenshot from nano_
 
-
+### PROBLEM 2
 > `(Issue)`: Could ping from server to desktop but not the other way
-{: .prompt-info }
+{: .prompt-warning }
 
 ![Desktop View](/assets/img/network-project/server-showaddr-problem.png)
 
 > `(Fix)`: Assigned consistent static IPs to both machines to avoid conflicts, turned dchp off. (previously server had .101).
-{: .prompt-info }
+{: .prompt-tip }
 
 ![Desktop View](/assets/img/network-project/server-addr-after-dhcp-off.png)
 
