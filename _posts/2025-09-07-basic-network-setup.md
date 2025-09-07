@@ -158,10 +158,13 @@ _Screenshot from nano_
 
 
 > `(Issue)`: Could ping from server to desktop but not the other way
+{: .prompt-info }
 
 ![Desktop View](/assets/img/network-project/server-showaddr-problem.png)
 
 > `(Fix)`: Assigned consistent static IPs to both machines to avoid conflicts, turned dchp off. (previously server had .101).
+{: .prompt-info }
+
 ![Desktop View](/assets/img/network-project/server-addr-after-dhcp-off.png)
 
 
