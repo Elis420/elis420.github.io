@@ -17,7 +17,7 @@ description: "Step-by-step walkthrough of how I set up a basic Network using 2 U
 # Networking Basics Lab 🖧
 
 This project demonstrates a basic networking setup using VirtualBox, Ubuntu Desktop, and Ubuntu Server.
-It covers VM setup, VirtualBox networking configuration, OS installation, IP configuration, testing, and troubleshooting.
+It covers VM setup, VirtualBox networking configuration, IP configuration, testing, and troubleshooting.
 
 ## Lab Topology 🖼️
 
