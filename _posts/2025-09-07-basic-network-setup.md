@@ -48,7 +48,7 @@ It covers VM setup, VirtualBox networking configuration, IP configuration, testi
 
   - Ubuntu Server VM
 
-    - Adapter 1: Host-Only Adapter (vboxnet0)
+    - Adapter 1: Host-Only Adapter
 	
 ![Desktop View](/assets/img/network-project/vbox-show.png)
 
