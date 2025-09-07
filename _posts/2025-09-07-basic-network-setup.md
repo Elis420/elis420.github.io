@@ -139,25 +139,29 @@ _Screenshot from desktop's Terminal_
 
 ## Troubleshooting 🔧
 
-- Issue: No IP address on enp0s3
+> `(Issue)`: No IP address on enp0s3.
+{: .prompt-info }
+
 ![Desktop View](/assets/img/network-project/changes-not-applied-through-ip-address-set.png)
 _Screenshot from Desktop's Terminal_
 
-  - Fix: Configured static IP in Netplan and applied it with sudo netplan apply
+> `(Fix)`: Configured static IP in Netplan and applied it with sudo netplan apply.
+{: .prompt-info }
 .
 ![Desktop View](/assets/img/network-project/edit-netconfg-ubuntu-1.png)
 _Screenshot from nano_
 
-
-- Issue: Could ping from server to desktop but not the other way
-  - Fix: Assigned consistent static IPs to both machines to avoid conflicts, turned dchp off. (previously server had .101).
-
-> Before fix.
+> `(Result)`: Problem fixed.
 {: .prompt-info }
+![Desktop View](/assets/img/network-project/verified-ipaddress-it-works.png)
+_Screenshot from nano_
+
+
+> `(Issue)`: Could ping from server to desktop but not the other way
+
 ![Desktop View](/assets/img/network-project/server-showaddr-problem.png)
 
-> After fix.
-{: .prompt-info }
+> `(Fix)`: Assigned consistent static IPs to both machines to avoid conflicts, turned dchp off. (previously server had .101).
 ![Desktop View](/assets/img/network-project/server-addr-after-dhcp-off.png)
 
 
