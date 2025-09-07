@@ -132,7 +132,7 @@ ping 192.168.56.10
 ```
 
 ![Desktop View](/assets/img/network-project/ping-fromserver-to-desktop.png)
-_Screenshot from desktop's Terminal_
+_Screenshot from Server_
 
 > Both pings are successful.
 {: .prompt-info }
