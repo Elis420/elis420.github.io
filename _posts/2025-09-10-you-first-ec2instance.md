@@ -91,12 +91,71 @@ ssh -i "my-key-pair.pem" ubuntu@<Public-IP-Address>
 
 ![Success!](/assets/img/first-ec2-instance/success!.png)
 
+## 5. Creating an EBS Snapshot 📸
+
+- Navigate to **Elastic Block Store > Volumes**
+- Select the target EBS volume attached to your instance
+
+![Select Target Volume](/assets/img/first-ec2-instance/select-target-volume.png)
+
+- Click **Create Snapshot**, add a description, and confirm
+
+![Snapshot Interface](/assets/img/first-ec2-instance/showing-snapshot-interface.png)
+
+> The snapshot is now created and stored safely in AWS.
+{: .prompt-info }
+
+![Created Snapshot Showcase](/assets/img/first-ec2-instance/created-snapshot-showcase.png)
+
+---
+
+## 6. Enabling Recycle Bin ♻️
+
+### Accessing Recycle Bin
+
+- Go to **Recycle Bin** in the AWS console
+
+![Access Recycle Bin](/assets/img/first-ec2-instance/access-recycle-bin.png)
+
+### Creating a Retention Rule
+
+- Create a rule for EBS snapshots with **1-day retention**
+- Keep "Unlock" option checked (allows modifying or deleting rule later)
+
+![Access Retention Rules](/assets/img/first-ec2-instance/access-ret-rules.png)
+
+![Create Retention Rule](/assets/img/first-ec2-instance/create-detention-rule.png)
+
+> This ensures that even if someone deletes a snapshot, it will be recoverable for 1 day.
+{: .prompt-tip }
+
+---
+
+## 7. Testing Snapshot Deletion and Recovery 🧪
+
+- Deleted the snapshot manually from the Snapshots console
+
+![Delete Snapshot](/assets/img/first-ec2-instance/select-delete-snapshot.png)
+
+- Verified it appears in Recycle Bin
+
+![Deleted Snapshot in Recycle Bin](/assets/img/first-ec2-instance/showing-deleted-snapshot-inrecyclebin-andhowtorecoverit.png)
+
+- Recovered the snapshot successfully
+
+![Recovered Snapshot](/assets/img/first-ec2-instance/showing-recovered-snapshot.png)
+
+> This proves that the retention rule works and can protect from accidental deletions.
+{: .prompt-info }
+
+
 ## Lessons Learned 📚
 
 - How to select an AMI and instance type for free-tier or custom needs
 - Key pair creation and secure storage
 - Configuring networking and storage options for EC2 instances
 - SSH access to Linux-based instances
+- Creating and restoring EBS snapshots
 
 ## Future Work 🔮
 
