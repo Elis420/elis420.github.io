@@ -10,6 +10,7 @@ description: "Step-by-step walkthrough of launching and connecting to your first
 # Launching Your First EC2 Instance ☁️
 
 This project demonstrates how to launch an EC2 instance on AWS, configure key pairs, choose an OS, set up networking, and connect to it.  
+In addition, we cover **creating EBS snapshots**, and configuring **Recycle Bin retention rules** to prevent accidental data loss.
 
 ---
 
