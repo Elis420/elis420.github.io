@@ -16,8 +16,8 @@ This project demonstrates how to create a complete, self-sufficient VPC in AWS. 
 
 ![VPC Components Diagram](/assets/img/vpc-project/vpc-components-diagram.png)
 
-> This diagram shows the high-level components of our VPC setup.
-{: .prompt-info }
+> **Note:** This diagram shows the high-level components of our VPC setup.
+
 
 
 ---
