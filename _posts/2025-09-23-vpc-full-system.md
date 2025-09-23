@@ -107,32 +107,49 @@ Attach it to **DemoVPC**:
 
 ---
 
-## 5. Configuring Route Tables 🛣️
 
-Create separate **public and private route tables**.  
+## 5. Creating Route Tables 🛣️
 
-Creating the public subnets:
+First, let's access the **Route Tables** menu in the AWS VPC dashboard. By default, there is a route table, but best practice is to explicitly create route tables for each VPC.
 
-![Public Subnet A Settings](/assets/img/vpc-project/public-subnet-a-settings.png)
+![Route Tables Menu](/assets/img/vpc-project/showing-how-we-access-route-tables-in-dashboard-and-the-default-route-table.png)
 
-![Public Subnet B Settings](/assets/img/vpc-project/public-subnet-b-settings.png)
+> The default route table exists automatically, but we will create explicit public and private route tables for better control.
+{: .prompt-info }
 
+### 5.1 Creating Public and Private Route Tables
 
+We start by creating a **public route table** and a **private route table**.
 
-Creating the private subnets:
+![Edit Public Route Table](/assets/img/vpc-project/edit-public-route-table-show.png)
 
-![Private Subnet A Settings](/assets/img/vpc-project/private-subnet-a-settings.png)
+> The public route table will be associated with our public subnets, and the private route table with our private subnets.
+{: .prompt-info }
 
-![Private Subnet B Settings](/assets/img/vpc-project/private-subnet-b-settings.png)
+### 5.2 Associating Subnets
 
-Now you can see we have all of our subnets created, both public and private:
+Now, let's add **subnet associations** for our public route table, including **Public Subnet A** and **Public Subnet B**.
 
-![Subnets in Dashboard](/assets/img/vpc-project/created-subnets-show-indashboard.png)
+![Adding Public Subnets](/assets/img/vpc-project/showing-how-im-adding-public-subnets-associations.png)
 
-Associate **subnets** to the public route table:
+![Subnet Associations](/assets/img/vpc-project/add-subnets-associations-show-public-route-table.png)
 
-![Public Route Table Associations](/assets/img/vpc-project/showing-how-im-adding-public-subnets-associations.png)
+Next, we associate our **private subnets** with the private route table.
 
+![Associating Private Subnets](/assets/img/vpc-project/doing-the-same-for-private-subnets.png)
+
+### 5.3 Adding Internet Access for Public Subnets
+
+To allow our public subnets to connect to the internet, we need to edit the **public route table** and add a rule. Any traffic destined for addresses outside our VPC CIDR (10.0.0.0/16) should be routed to the **Internet Gateway (IGW)**.
+
+![Public Route Table Rules](/assets/img/vpc-project/creating-public-route-rable.png)
+
+For our **private route table**, we leave the routes internal for now:
+
+![Private Route Table Rules](/assets/img/vpc-project/private-route-table-show.png)
+
+> This setup ensures that public subnets have internet access while private subnets remain isolated until we add NAT Gateway routing.
+{: .prompt-info }
 
 
 ---
@@ -461,7 +478,7 @@ curl https://www.google.com
 > Access fails since internet is disconnected. Now we will use VPC Endpoint.
 {: .prompt-tip }
 
-## Step 3: Create VPC Endpoint (S3 Gateway)
+### Step 3: Create VPC Endpoint (S3 Gateway)
 
 - Navigate to VPC → Endpoints → Create Endpoint
 
@@ -507,7 +524,7 @@ Now we will go back to our Private EC2 Instance and run aws s3 ls command  we ca
 > The private instance now has permission to access S3 through the VPC Endpoint.
 {: .prompt-tip }
 
-## Step 5: Test S3 Access via Endpoint
+### Step 5: Test S3 Access via Endpoint
 
 - Connect to the private instance via Bastion and run:
 
@@ -608,13 +625,13 @@ EC2 Instance attached ENI, eni-0fad996cf359c5485-all is attached to our Bastion 
 
 
 
-## Step 4: Analyze Flow Logs with Athena 🧐
+### Step 4: Analyze Flow Logs with Athena 🧐
 
 > Athena allows you to run SQL queries on your VPC Flow Logs stored in S3. This helps analyze network traffic, detect security events, and generate insights.
 
 ---
 
-### Step 4.1: Configure Athena Query Result Location
+#### Step 4.1: Configure Athena Query Result Location
 
 - Navigate to **Athena → Settings → Manage Settings**
 - Set **Query result location** to an S3 bucket (e.g., `demo-athena-elis-v1/athena`)
@@ -626,7 +643,7 @@ EC2 Instance attached ENI, eni-0fad996cf359c5485-all is attached to our Bastion 
 
 ---
 
-### Step 4.2: Create a Table for VPC Flow Logs
+#### Step 4.2: Create a Table for VPC Flow Logs
 
 - Copy the DDL statement from AWS documentation:
  https://docs.aws.amazon.com/athena/latest/ug/vpc-flow-logs-create-table-statement.html 
@@ -665,7 +682,7 @@ LOCATION 's3://<your-flowlogs-bucket>/AWSLogs/<account-id>/vpcflowlogs/<region>/
 
 ![Table Created](/assets/img/vpc-project/vpc-flowlogs-table-created-after-running.png)
 
-### Step 4.3: Add Partitions 🗂️
+#### Step 4.3: Add Partitions 🗂️
 
 - Athena requires partitions to read daily logs efficiently.
 - Use the following `ALTER TABLE` statement:
@@ -683,9 +700,7 @@ LOCATION 's3://<your-flowlogs-bucket>/AWSLogs/<account-id>/vpcflowlogs/<region>/
 
 - After running this, Athena can query the Flow Logs for the specified date.
 
-### Step 4.4: Run Sample Queries 🔍
-
-![Athena Query Results](/assets/img/vpc-project/vpc-flowlogs-athena-runquery-100-results.png)
+#### Step 4.4: Run Sample Queries 🔍
 
 ```sql
 SELECT day_of_week(date) AS day,
@@ -699,6 +714,8 @@ WHERE action = 'REJECT' AND protocol = 6
 LIMIT 100;
 ```
 - Execute this query in Athena Query Editor.
+
+![Athena Query Results](/assets/img/vpc-project/vpc-flowlogs-athena-runquery-100-results.png)
 
 - Results include:
 
@@ -714,7 +731,7 @@ LIMIT 100;
 
     - protocol – Protocol number (6 = TCP)
 	
-## Step 4.5: Next Steps with Athena 🚀
+#### Step 4.5: Next Steps with Athena 🚀
 
 - Create more complex queries, for example:
 
