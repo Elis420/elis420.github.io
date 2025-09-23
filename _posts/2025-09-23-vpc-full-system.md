@@ -117,11 +117,16 @@ First, let's access the **Route Tables** menu in the AWS VPC dashboard. By defau
 > The default route table exists automatically, but we will create explicit public and private route tables for better control.
 {: .prompt-info }
 
+
+
 ### 5.1 Creating Public and Private Route Tables
 
 We start by creating a **public route table** and a **private route table**.
 
-![Edit Public Route Table](/assets/img/vpc-project/edit-public-route-table-show.png)
+![Public Route Table Rules](/assets/img/vpc-project/creating-public-route-rable.png)
+
+![Private Route Table Rules](/assets/img/vpc-project/private-route-table-show.png)
+
 
 > The public route table will be associated with our public subnets, and the private route table with our private subnets.
 {: .prompt-info }
@@ -130,36 +135,32 @@ We start by creating a **public route table** and a **private route table**.
 
 Now, let's add **subnet associations** for our public route table, including **Public Subnet A** and **Public Subnet B**.
 
+![Subnet Associations](/assets/img/vpc-project/add-subnets-associations-show-public-route-table.png)
+
 ![Adding Public Subnets](/assets/img/vpc-project/showing-how-im-adding-public-subnets-associations.png)
 
-![Subnet Associations](/assets/img/vpc-project/add-subnets-associations-show-public-route-table.png)
+
 
 Next, we associate our **private subnets** with the private route table.
 
 ![Associating Private Subnets](/assets/img/vpc-project/doing-the-same-for-private-subnets.png)
-
-### 5.3 Adding Internet Access for Public Subnets
-
-To allow our public subnets to connect to the internet, we need to edit the **public route table** and add a rule. Any traffic destined for addresses outside our VPC CIDR (10.0.0.0/16) should be routed to the **Internet Gateway (IGW)**.
-
-![Public Route Table Rules](/assets/img/vpc-project/creating-public-route-rable.png)
-
-For our **private route table**, we leave the routes internal for now:
-
-![Private Route Table Rules](/assets/img/vpc-project/private-route-table-show.png)
-
-> This setup ensures that public subnets have internet access while private subnets remain isolated until we add NAT Gateway routing.
-{: .prompt-info }
 
 
 ---
 
 ## 6. Public Route Table Rule
 
-To connect public subnets to the internet:
+To allow our public subnets to connect to the internet, we need to edit the **public route table** and add a rule. Any traffic destined for addresses outside our VPC CIDR (10.0.0.0/16) should be routed to the **Internet Gateway (IGW)**.
 
-- Destination: `0.0.0.0/0`
-- Target: IGW (DemoIGW)
+![Edit Public Route Table](/assets/img/vpc-project/edit-public-route-table-show.png)
+
+For our **private route table**, we leave the routes internal for now:
+
+
+
+> This setup ensures that public subnets have internet access while private subnets remain isolated until we add NAT Gateway routing.
+{: .prompt-info }
+
 
 Now we can **successfully connect to our public EC2 instance**:
 
