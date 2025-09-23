@@ -270,8 +270,6 @@ Go to **VPC → Elastic IPs → Allocate Elastic IP Address**.
 
 ![Elastic IP Allocation](/assets/img/vpc-project/elastic-address-settings-page1.png)
 
-![Associate Elastic IP](/assets/img/vpc-project/actions-associate-elastic-ip-address.png)
-
 > Our Elastic IP: `3.126.86.249`
 {: .prompt-info }
 
@@ -498,17 +496,17 @@ curl https://www.google.com
 
 ![Endpoint Added to Route Table](/assets/img/vpc-project/vpc-endpoint-creating-endpoint-4-show-that-our-endpoint-has-been-added-to-route-table.png)
 
-- For this matter, we also have to create e role for this instance in order to be able to access S3 from it
+- For this matter, we also have to create a role for this instance in order to be able to access S3 from within it
 so in our EC2 Instances dashboard, right click our PrivateInstance, Security and press modify IAM Role
 ![Modify IAM Role](/assets/img/vpc-project/vpc-endpoint-modify-iamrole-button-show.png)
 
 -  Now let's press on create IAM Role
 ![Create IAM Role](/assets/img/vpc-project/vpc-endpoint-modify-iam-role-press-create-iam-role.png)
 
-now in iam press create role
+Now in IAM press create role
 ![IAM Create Role](/assets/img/vpc-project/vpc-endpoint-iam-dashboard-create-role-button.png)
 
-select ec2 instance role
+Select ec2 instance role
 ![IAM Select EC2](/assets/img/vpc-project/vpc-endpoint-iam-role-creation-select-ec2.png)
 
 Now click on next, and for the policy select AmazonS3ReadOnlyAccess, and click on Next
@@ -549,6 +547,9 @@ The command succeeds. Private EC2 instance now accesses S3 without using NAT Gat
 ### Step 1: Create Flow Log to S3
 
 - Navigate to **VPC → DemoVPC → Flow Logs → Create Flow Log**
+
+![Flow Logs Setup Page](/assets/img/vpc-project/vpc-flowlogs-creation-page-show.png)
+
 - Set:
   - Name: `DemoFlowLogS3`
   - Maximum aggregation interval: 1 minute
@@ -556,7 +557,6 @@ The command succeeds. Private EC2 instance now accesses S3 without using NAT Gat
 - Create S3 bucket for logs: `demo-elis-vpc-flow-logs-v1`
 - Copy bucket ARN and paste in Flow Log settings
 
-![Flow Logs Setup Page](/assets/img/vpc-project/vpc-flowlogs-creation-page-show.png)
 ![Show Bucket ARN](/assets/img/vpc-project/vpc-flowlogs-show-bucket-arn-in-details.png)
 ![Copy Bucket ARN](/assets/img/vpc-project/vpc-flowlogs-copy-bucket-arn-into-flowlog-settings.png)
 
@@ -567,8 +567,14 @@ The command succeeds. Private EC2 instance now accesses S3 without using NAT Gat
 ### Step 2: Create Flow Log to CloudWatch
 
 - Create a Flow Log: `DemoFlowLogCWLogs`
+
+![Flow Logs Dashboard](/assets/img/vpc-project/vpc-flowlogs-show-button-in-dashboard.png)
+
+![Create CloudWatch Flow Logs](/assets/img/vpc-project/vpc-flowlogs-create-cloudwatch-logs-page.png)
+
 - Aggregation interval: 1 minute
 - Destination: **CloudWatch Logs**
+- Select Role: Trusted Entity
 - Create Service Role:
 
 ```json
@@ -587,6 +593,8 @@ The command succeeds. Private EC2 instance now accesses S3 without using NAT Gat
 }
 ```
 
+![Flow Logs Role Trusted Entity](/assets/img/vpc-project/vpc-flowlogs-create-role-select-trusted-entity.png)
+
 -  Now Click on next, Assign CloudWatchLogsFullAccess permission
 
 ![CloudWatch Logs Full Access](/assets/img/vpc-project/vpc-flowlogs-create-role-add-permissions-cw-logs-full-access.png)
@@ -602,15 +610,20 @@ The command succeeds. Private EC2 instance now accesses S3 without using NAT Gat
 
 ![Log Group Settings](/assets/img/vpc-project/vpc-flowlogs-create-log-groups-show-settings.png)
 
+> Select Destination Log Group
+
 ![Select Destination Log Group](/assets/img/vpc-project/vpc-flowlogs-create-destination-log-group-select.png)
+
+> Select Service Role
 
 ![Select Service Role](/assets/img/vpc-project/vpc-flowlogs-select-servicerole-show.png)
 
-- Now, Flow Logs are being captured in both S3 and CloudWatch.
+> Now, Flow Logs are being captured in both S3 and CloudWatch.
 
 ![Both Flow Logs Created](/assets/img/vpc-project/vpc-flowlogs-show-both-created-flowlogs.png)
 
-- Now if we check our S3 Bucket objects, we can observe that some logs have already been created
+> If we check our S3 Bucket objects, we can observe that some logs have already been created
+{: .prompt-info }
 
 ![S3 Logs Created](/assets/img/vpc-project/vpc-flowlogs-show-created-s3-logs.png)
 
