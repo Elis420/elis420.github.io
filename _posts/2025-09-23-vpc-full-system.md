@@ -111,13 +111,29 @@ Attach it to **DemoVPC**:
 
 Create separate **public and private route tables**.  
 
-Associate **public subnets** to the public route table:
+Creating the public subnets:
+
+![Public Subnet A Settings](/assets/img/vpc-project/public-subnet-a-settings.png)
+
+![Public Subnet B Settings](/assets/img/vpc-project/public-subnet-b-settings.png)
+
+
+
+Creating the private subnets:
+
+![Private Subnet A Settings](/assets/img/vpc-project/private-subnet-a-settings.png)
+
+![Private Subnet B Settings](/assets/img/vpc-project/private-subnet-b-settings.png)
+
+Now you can see we have all of our subnets created, both public and private:
+
+![Subnets in Dashboard](/assets/img/vpc-project/created-subnets-show-indashboard.png)
+
+Associate **subnets** to the public route table:
 
 ![Public Route Table Associations](/assets/img/vpc-project/showing-how-im-adding-public-subnets-associations.png)
 
-Associate **private subnets** to the private route table:
 
-![Private Route Table Associations](/assets/img/vpc-project/showing-private-subnets-association.png)
 
 ---
 
@@ -141,7 +157,7 @@ We will use our **already created public EC2 instance** as the Bastion Host.
 
 Rename it:
 
-![Rename EC2 to BastionHost](/assets/img/vpc-project/rename-public-ec2-to-bastionhost.png)
+![Rename Bastion Host](/assets/img/vpc-project/renaming-out-ec2-instance-bastion-host.png)
 
 Create a **key pair** for the private instance:
 
@@ -160,7 +176,7 @@ Create a **key pair** for the private instance:
   - Inbound rules: Allow SSH **only** from Bastion Host security group
 - Key Pair: DemoKeyPair
 
-![Private Instance Network Settings](/assets/img/vpc-project/private-instance-network-settings.png)
+![Private EC2 Instance with Key Pair](/assets/img/vpc-project/creating-private-ec2-instance-showing-keypair-selected.png)
 
 ---
 
@@ -168,7 +184,7 @@ Create a **key pair** for the private instance:
 
 1. Check **Private IPv4 address** of the private instance:
 
-![Private IPv4 Address](/assets/img/vpc-project/check-private-ip-address.png)
+![Private Instance IPv4 Address](/assets/img/vpc-project/show-private-instance-ipv4-address.png)
 
 2. Create `.pem` file on Bastion Host:
 
@@ -177,11 +193,19 @@ nano DemoKeyPair.pem
 ```
 3. Paste the contents of your private key, save, and exit (Ctrl + X, Y, Enter).
 
+![Add KeyPair in Bastion Host](/assets/img/vpc-project/adding-keypair-to-bastion-host-nano-command.png)
+
+![Paste Key Pair](/assets/img/vpc-project/paste-contents-of-keypair-in-nano.png)
+
+
 4. Verify key contents:
 
 ```bash
 cat DemoKeyPair.pem
 ```
+
+![Check Key Pair](/assets/img/vpc-project/we-cat-or-check-contents-using-the-cat-command-in-our-demokeypair.pem-file.png)
+
 
 5. Set correct permissions:
 
@@ -189,11 +213,19 @@ cat DemoKeyPair.pem
 chmod 0400 DemoKeyPair.pem
 ```
 
+![Change Key Permissions](/assets/img/vpc-project/change-permissions-keypair-command.png)
+
+
 6. Connect to private instance:
 
 ```bash
 ssh -i "DemoKeyPair.pem" ec2-user@10.0.18.74
 ```
+
+
+
+
+
 
 You may see:
 
@@ -216,7 +248,11 @@ NAT allows **private instances** to access the internet securely without exposin
 ### 1. Allocate Elastic IP
 Go to **VPC → Elastic IPs → Allocate Elastic IP Address**.  
 
-![Allocate Elastic IP](/assets/img/vpc-project/nat-allocate-elastic-ip.png)
+![Elastic IP Menu](/assets/img/vpc-project/show-where-to-go-for-elastic-ip.png)
+
+![Elastic IP Allocation](/assets/img/vpc-project/elastic-address-settings-page1.png)
+
+![Associate Elastic IP](/assets/img/vpc-project/actions-associate-elastic-ip-address.png)
 
 > Our Elastic IP: `3.126.86.249`
 {: .prompt-info }
@@ -224,13 +260,17 @@ Go to **VPC → Elastic IPs → Allocate Elastic IP Address**.
 ### 2. Create NAT Gateway
 Go to **VPC → NAT Gateways → Create NAT Gateway**:
 
+![NAT Gateway Menu](/assets/img/vpc-project/go-to-vpc-nat-gateways.png)
+
 - Name: `MyNATGateway`
 - Subnet: Public Subnet (must have route to IGW)
 - Elastic IP: Use the one allocated
 
-![Create NAT Gateway](/assets/img/vpc-project/nat-create-natgw.png)
+![Create NAT Gateway](/assets/img/vpc-project/nat-gateway-creation.png)
 
 Wait until **Status = Available**.
+
+![NAT Gateway Available](/assets/img/vpc-project/nat-gateway-showing-available.png)
 
 ### 3. Update Private Route Table
 Add a new route in the **Private Route Table**:
@@ -238,7 +278,7 @@ Add a new route in the **Private Route Table**:
 - Destination: `0.0.0.0/0`
 - Target: `MyNATGateway`
 
-![Private Route Table NAT Route](/assets/img/vpc-project/nat-add-route-private-subnet.png)
+![Private Route Table NAT Rule](/assets/img/vpc-project/private-subnet-route-table-add-nat-gateway-rule.png)
 
 Now our private EC2 can access the internet:
 
@@ -246,6 +286,8 @@ Now our private EC2 can access the internet:
 ssh -i "DemoKeyPair.pem" ec2-user@10.0.18.74
 ping google.com
 ``` 
+
+![Private EC2 Internet Access](/assets/img/vpc-project/now-internet-connection-works-in-our-private-ec2-connected-through-ssh-from-bastion-and-pinged-google.png)
 
 NATGW requires IGW: Private Subnet → NATGW → IGW
 {: .prompt-info }
@@ -270,6 +312,8 @@ cat /var/www/html/index.html
 ![Successful Hello World](/assets/img/vpc-project/testing-connection-bastion-host-showing-connection-successful-browser-hello-world.png)
 
 ## 10. Network ACLs (NACLs) 🔒
+
+Let's check our Network ACLs and see how they work. For testing purposes, we'll modify rules to observe how they affect traffic.
 
 -  Default ACL is attached to all subnets.
 
@@ -305,7 +349,7 @@ cat /var/www/html/index.html
 
 ![HTTP Access Restored](/assets/img/vpc-project/show-hello-world-connection-successful-after-changing-rule-to-140.png)
 
-- Now show our nacl inbound security group order in the dashboard and show it's indeed showing as the second in line, since, the rule 100 has precedence.
+- Now as you can see our NACL inbound security group that our newly created rules appear in order in our dashboard, since 100 has precedence over 140.
 
 ![Inbound Rules Order](/assets/img/vpc-project/show-inbound-rules-order-in-network-acls-dashboard.png)
 
@@ -327,27 +371,37 @@ Note: NACLs are stateless. Security Groups are stateful. Outbound restrictions a
 > VPC Peering requires non-overlapping CIDRs and is non-transitive.  
 
 ### Peering Diagram
-![VPC Peering Diagram](/assets/img/vpc-project/vpc-peering-diagram.png)
+
+![Diagram before Peering](/assets/img/vpc-project/show-current-state-of-our-diagram-and-how-we-will-add-our-vpc-peering-connection.png)
 
 Peer **DemoVPC (10.0.0.0/16)** → **DefaultVPC (172.31.0.0/16)**  
 
 ### Step 1: Create Peering Connection
 
+Now we will establish a Peering connection between our DemoVPC and DefaultVPC (we've renamed our AWS default VPC DefaultVPC)
+
+![Rename Default VPC](/assets/img/vpc-project/show-default-vpc-in-dashboard.png)
+
 - Go to **VPC → Peering Connections → Create Peering Connection**
-- Select **DemoVPC** → **DefaultVPC**
+
+![Create Peering Connection](/assets/img/vpc-project/peering-connections-create-peering-button-show.png)
+
+- Select **DemoVPC** → **DefaultVPC** 
+
 - Ensure CIDRs do not overlap
 
-![Create VPC Peering](/assets/img/vpc-project/vpc-peering-create-connection-dashboard.png)
+![Peering Connection Settings](/assets/img/vpc-project/show-vpc-pairing-connection-settings.png)
 
 ### Step 2: Accept Peering
 
 - Accept the pending peering connection in the console
 
-![Accept Peering](/assets/img/vpc-project/vpc-connection-has-been-request-press-accept-request-button-show.png)
+![Accept Peering Connection](/assets/img/vpc-project/vpc-connection-has-been-request-press-accept-request-button-show.png)
+
 
 - Status: **Active**  
 
-![Peering Active](/assets/img/vpc-project/now-we-can-see-that-vpc-connection-has-been-established-successfully.png)
+![Peering Connection Established](/assets/img/vpc-project/now-we-can-see-that-vpc-connection-has-been-established-successfully.png)
 
 ### Step 3: Update Route Tables
 
@@ -727,10 +781,12 @@ You have successfully built a full AWS VPC with:
 > Your environment is now fully operational and ready for further scaling, monitoring, and security enhancements.  
 {: .prompt-info }
 
-## Future Projects & To-Do List 🛠️
+## Future Projects 🚀
 
-Future ideas: use **Transit Gateway** for multi-VPC connectivity, **Direct Connect** for private high-bandwidth links, and **Egress-Only IGW** for IPv6 private subnets.  
-Keep a **To-Do List website** to track improvements and document VPC designs.  
-Next steps: automate with **CloudFormation/Terraform** and expand **Athena analytics** for Flow Logs.  
+Planned projects after SAA-C03 certification:  
+- Build a **To-Do List website**  
+- Explore **Transit Gateway** multi-VPC setups  
+- Experiment with **Direct Connect** for private links  
+- Create more **Athena queries** for Flow Logs analysis  
 {: .prompt-info }
 
