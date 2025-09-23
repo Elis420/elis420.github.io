@@ -215,6 +215,8 @@ nano DemoKeyPair.pem
 
 ![Paste Key Pair](/assets/img/vpc-project/paste-contents-of-keypair-in-nano.png)
 
+> Don't worry, this Key has already been deprecated, so it's no longer valid 😌
+{: .prompt-info }
 
 4. Verify key contents:
 
@@ -685,7 +687,7 @@ FIELDS TERMINATED BY ' '
 LOCATION 's3://<your-flowlogs-bucket>/AWSLogs/<account-id>/vpcflowlogs/<region>/';
 ```
 
--  Replace <your-flowlogs-bucket>, <account-id>, and <region> with your actual values.
+-  Replace **your-flowlogs-bucket**, **account-id**, and **region** with your actual values.
   - This creates a table linked to your S3 Flow Logs.
 
 ![Copy S3 URI](/assets/img/vpc-project/vpc-flowlogs-copy-s3-uri.png)
@@ -791,7 +793,7 @@ For this project, we will only outline the steps and show screenshots; no live c
 
 ![VPN Connection Settings](/assets/img/vpc-project/vpc-vpn-site2site-connection-settings.png)
 
-> Note: AWS Direct Connect, Transit Gateway, and Egress-Only Internet Gateway are additional options for advanced connectivity.  
+> Note: AWS Direct Connect, Transit Gateway, and Egress-Only Internet Gateway, for IPv6 are additional options for advanced connectivity. 
 {: .prompt-info }
 
 ---
