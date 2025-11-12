@@ -5,7 +5,6 @@ categories: [Projects, Cloud]
 tags: [AWS, Python, S3, Automation, boto3]
 author: elis_cazacu
 description: "A serverless-style Python project that integrates with AWS S3 for secure, cloud-based budget management."
-image: /assets/img/cloud-budget-tracker/cover.png
 ---
 
 # ☁️ Cloud Budget Tracker (Python + AWS S3)
