@@ -34,11 +34,6 @@ Python CLI ──► AWS S3 (ledger + reports)
 | **AWS CloudShell** | Cloud execution environment |
 | **S3 Bucket** | Secure ledger + report storage |
 
-## 💻 Full Source Code
-
-
-
-
 ## 🧠 Key Features
 
 - 💰 Add, withdraw, and transfer funds between categories
