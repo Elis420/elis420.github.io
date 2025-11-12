@@ -83,13 +83,6 @@ s3://elis-budget-tracker-123456/reports/YYYY-MM-DD.json
 IAM roles follow the principle of least privilege (s3:GetObject, s3:PutObject, s3:ListBucket).
 {: .prompt-tip }
 
-## 🌟 Future Improvements
-
-- Automate weekly reports with AWS Lambda + EventBridge
-
-- Add Amazon SES for email notifications
-
-- Build a web UI using Streamlit to visualize spending
 
 ## 📸 Screenshots
 
