@@ -34,6 +34,11 @@ Python CLI ──► AWS S3 (ledger + reports)
 | **AWS CloudShell** | Cloud execution environment |
 | **S3 Bucket** | Secure ledger + report storage |
 
+## 💾 Source Code
+
+The full implementation is available on GitHub:  
+👉 [View on GitHub → elis420/cloud-budget-tracker](https://github.com/Elis420/cloud-budget-tracker)
+
 ## 🧠 Key Features
 
 - 💰 Add, withdraw, and transfer funds between categories
@@ -43,12 +48,6 @@ Python CLI ──► AWS S3 (ledger + reports)
 - 🔐 Encrypted and versioned storage by default
 
 - 📊 Generate JSON reports on spending by category
-
-
-## 💾 Source Code
-
-The full implementation is available on GitHub:  
-👉 [View on GitHub → elis420/cloud-budget-tracker](https://github.com/Elis420/cloud-budget-tracker)
 
 
 ### 1. Set Environment Variables
