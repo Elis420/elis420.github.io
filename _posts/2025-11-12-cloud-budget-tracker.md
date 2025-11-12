@@ -36,99 +36,7 @@ Python CLI ──► AWS S3 (ledger + reports)
 
 ## 💻 Full Source Code
 
-<details>
-  <summary><strong>▶ main.py</strong></summary>
 
-```python
-{% raw %}
-import os
-import sys
-import json
-from datetime import date
-from collections import defaultdict
-from s3_io import load_json, save_json
-from budget import Category, create_spend_chart
-
-BUCKET = os.environ.get("BUDGET_BUCKET", "elis-budget-tracker-123456")
-LEDGER_KEY = os.environ.get("LEDGER_KEY", "data/ledger.json")
-
-def load_categories_from_s3():
-    raw = load_json(BUCKET, LEDGER_KEY, default={"categories": []})
-    return [Category.from_dict(c) for c in raw.get("categories", [])]
-
-def save_categories_to_s3(categories):
-    payload = {"categories": [c.to_dict() for c in categories]}
-    return save_json(BUCKET, LEDGER_KEY, payload)
-
-# ... (rest of your code, like cmd_add, cmd_transfer, etc.)
-{% endraw %}
-```
-
-
-</details> <details> <summary><strong>▶ budget.py</strong></summary>
-```python
-{% raw %}
-class Category:
-    def __init__(self, category=None):
-        self.ledger = []
-        self.balance = 0
-        self.category = category
-
-    def deposit(self, amount, description=""):
-        self.ledger.append({"amount": amount, "description": description})
-        self.balance += amount
-
-    def withdraw(self, amount, description=""):
-        if self.check_funds(amount):
-            self.ledger.append({"amount": -amount, "description": description})
-            self.balance -= amount
-            return True
-        return False
-
-    def check_funds(self, amount):
-        return amount <= self.balance
-
-    def get_balance(self):
-        return self.balance
-
-    def to_dict(self):
-        return {"category": self.category, "ledger": self.ledger, "balance": self.balance}
-
-    @classmethod
-    def from_dict(cls, data):
-        c = cls(data["category"])
-        c.ledger = data.get("ledger", [])
-        c.balance = data.get("balance", 0)
-        return c
-{% endraw %}
-```
-</details> <details> <summary><strong>▶ s3_io.py</strong></summary>
-
-```python
-{% raw %}
-import json
-import boto3
-from botocore.exceptions import ClientError
-
-_s3 = boto3.client("s3")
-
-def load_json(bucket: str, key: str, default):
-    try:
-        obj = _s3.get_object(Bucket=bucket, Key=key)
-        return json.loads(obj["Body"].read().decode("utf-8"))
-    except ClientError as e:
-        code = e.response["Error"]["Code"]
-        if code in ("NoSuchKey", "NoSuchBucket"):
-            return default
-        raise
-
-def save_json(bucket: str, key: str, data):
-    body = json.dumps(data, indent=2).encode("utf-8")
-    _s3.put_object(Bucket=bucket, Key=key, Body=body, ContentType="application/json")
-    return f"s3://{bucket}/{key}"
-{% endraw %}
-```
-</details>
 
 
 ## 🧠 Key Features
@@ -142,7 +50,11 @@ def save_json(bucket: str, key: str, data):
 - 📊 Generate JSON reports on spending by category
 
 
-## 🖥️ How It Works
+## 💾 Source Code
+
+The full implementation is available on GitHub:  
+👉 [View on GitHub → elis420/cloud-budget-tracker](https://github.com/Elis420/cloud-budget-tracker)
+
 
 ### 1. Set Environment Variables
 
