@@ -16,7 +16,7 @@ Over the past year, I’ve gone from hands-on **IT Support** to completing multi
 
 ## ☁️ What I Do
 
-- Design and build small-scale **cloud-integrated Python applications** (like my [Cloud Budget Tracker](/_posts/cloud-budget-tracker))  
+- Design and build small-scale **cloud-integrated Python applications** (like my [Cloud Budget Tracker](https://github.com/Elis420/cloud-budget-tracker))  
 - Work with **AWS services** such as S3, Lambda, and CloudShell for automation and serverless workflows  
 - Manage systems, troubleshoot network and infrastructure issues, and write tools to make repetitive tasks faster and smarter  
 - Continuously learn and document my projects on this blog — from **scientific computing** to **cloud automation**
