@@ -84,9 +84,13 @@ IAM roles follow the principle of least privilege (s3:GetObject, s3:PutObject, s
 
 ![report stored in S3](/assets/img/budget-tracker/report-stored.png)
 
-> Running the tracker inside AWS CloudShell:
+> Running the tracker inside CloudShell or Powershell:
 
 ![running in CloudShell](/assets/img/budget-tracker/running-in-aws-cloudshell.png)
+
+![showing spending graph](/assets/img/budget-tracker/show-graph.png)
+
+![showing category spending](/assets/img/budget-tracker/show-spent-by-category.png)
 
 ## 🧩 Lessons Learned
 
